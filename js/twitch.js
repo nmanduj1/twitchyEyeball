@@ -41,14 +41,23 @@ $(document).ready(function() {
           "channel": "https://api.twitch.tv/kraken/channels/freecodecamp"
         }
       },
+        
+        
+        
+        
       {
-        "stream": null,
+        "stream": {},
         "display_name": "OgamingSC2",
         "_links": {
           "self": "https://api.twitch.tv/kraken/streams/ogamingsc2",
           "channel": "https://api.twitch.tv/kraken/channels/ogamingsc2"
         }
       },
+        
+        
+        
+        
+        
       {
         "stream": {
           "mature": false,
@@ -89,29 +98,72 @@ $(document).ready(function() {
           "channel": "https://api.twitch.tv/kraken/channels/esl_sc2"
         }
       },
+        
+        
+        
+        
+        
+        
       {
-        "stream": null,
+        "stream": {},
         "display_name": "noobs2ninjas",
         "_links": {
           "self": "https://api.twitch.tv/kraken/streams/esl_sc2",
           "channel": "https://api.twitch.tv/kraken/channels/esl_sc2"
         }
       },
+        
+        
+        
       {
+        "stream": {},    
         "error": "Not Found",
         "status": 404,
         "message": "Channel 'not-a-valid-account' does not exist"
       }
     ]
+    
+    console.log(jsonResult);
+    
+    var newId = 0;
+    
+    for (var i = 0; i < jsonResult.length; i++) {
+        newId+=1;
+        
+        
+        var newTwitchStream =$("#original").clone();
+        
+        newTwitchStream.attr("id", newId).appendTo(".grid");
+        newTwitchStream.removeClass("hide");
+        
+        var publicName = jsonResult[i].display_name || jsonResult[i].stream.display_name || "testing";
+        newTwitchStream.find("#streamName").text(publicName);
+        
+        var streamLogo = jsonResult[i].stream.logo || "http://static.fjcdn.com/gifs/404+otter+not+found_16a8ac_4704113.gif";
+        newTwitchStream.find("#userImage").attr("src", streamLogo);
+        
+        if (jsonResult[i].stream.url) {
+            var streamSite = jsonResult[i].stream.url;    
+        }
+        else {
+         var streamSite = "https://media.giphy.com/media/gw3IWyGkC0rsazTi/giphy.gif";
+        }
+        
+        newTwitchStream.find("a#umm").attr("href", streamSite);
+        
+        console.log(streamSite);
+        
+        
+        console.log(publicName);
+    }
 
-
-
-        console.log(jsonResult);
-        $('.grid').masonry({
-            itemSelector: '.grid-item',
-            isFitWidth: true, 
-            gutter: 30
-        });
+    console.log(newId);
+    
+    $('.grid').masonry({
+        itemSelector: '.grid-item',
+        isFitWidth: true, 
+        gutter: 30
+    });
    
 
 });
